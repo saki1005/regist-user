@@ -2,7 +2,7 @@ package com.example.domain;
 
 import java.sql.Timestamp;
 
-public class RegistUrl {
+public class Authentication {
 	private Integer id;
 	private String mailAddress;
 	private String uniqueKey;
