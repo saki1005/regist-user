@@ -46,8 +46,8 @@ public class UserRepository {
 	}
 
 	public void insertAuthentication(Authentication authentication) {
-		String sql = "INSERT INTO authentications(mail_address, unique_key, register_date, deleted)"
-				+ " VALUES(:mailAddress, :uniqueKey, :registDate, :deleted);";
+		String sql = "INSERT INTO authentications(mail_address, unique_key, deleted)"
+				+ " VALUES(:mailAddress, :uniqueKey, :deleted);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(authentication);
 		template.update(sql, param);
 	}
@@ -81,8 +81,8 @@ public class UserRepository {
 	}
 
 	public void insertUser(User user) {
-		String sql = "INSERT INTO users(name,ruby,mail_address,zip_code,address,telephone,password,register_user,update_user,deleted)"
-				+ " VALUES(:name,:ruby,:mailAddress,:zipCode,:address,:telephone,:password,1,1,0);";
+		String sql = "INSERT INTO users(name,ruby,mail_address,zip_code,address,telephone,password)"
+				+ " VALUES(:name,:ruby,:mailAddress,:zipCode,:address,:telephone,:password);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		template.update(sql, param);

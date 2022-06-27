@@ -1,8 +1,10 @@
 package com.example.controller;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mockStatic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +26,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.example.service.MailService;
-import com.example.service.MockService;
 import com.example.util.XlsDataSetLoader;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
@@ -49,10 +51,10 @@ class UserControllerTest {
 
 	@Mock
 	@Autowired
-	private MockService mockService;
+	private MailService mailService;
 
 	@InjectMocks
-	private MailService mailService;
+	private UserController userController;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -94,13 +96,24 @@ class UserControllerTest {
 	}
 
 	@Test
+	@DisplayName("URLが発行できた場合送信完了画面に遷移")
+	@DatabaseSetup("classpath:email_submit_01.xlsx")
+	void emailSubmit_03() throws Exception {
+		mockMvc.perform(get("/register/email-submit").param("mailAddress", "skweb1005@gmail.com"))
+				.andExpect(view().name("redirect:/register/email-finished")).andReturn();
+	}
+
+	@Test
 	@DisplayName("URLが発行できた場合authenticatonsテーブルに登録")
 	@DatabaseSetup("classpath:email_submit_01.xlsx")
 	@ExpectedDatabase(value = "classpath:email_submit_02.xlsx", assertionMode = DatabaseAssertionMode.NON_STRICT)
-	void emailSubmit_03() throws Exception {
-		when(mockService.generateKey()).thenReturn("unique-na-key");
+	void emailSubmit_04() throws Exception {
+
+		try (MockedStatic<UUID> mocked = mockStatic(UUID.class)) {
+			mocked.when(() -> UUID.randomUUID().toString()).thenReturn("unique-na-key");
+		}
 		mockMvc.perform(get("/register/email-submit").param("mailAddress", "skweb1005@gmail.com"))
-				.andExpect(view().name("email_submit.html")).andReturn();
+				.andExpect(view().name("email_finished.html")).andReturn();
 	}
 
 //	@Test

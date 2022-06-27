@@ -1,7 +1,7 @@
 package com.example.controller;
 
-import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +20,6 @@ import com.example.domain.User;
 import com.example.form.EmailSubmitForm;
 import com.example.form.UserForm;
 import com.example.service.MailService;
-import com.example.service.MockService;
 import com.example.service.UserService;
 
 @Controller
@@ -31,9 +30,6 @@ public class UserController {
 
 	@Autowired
 	private MailService mailService;
-
-	@Autowired
-	private MockService mockService;
 
 	@Autowired
 	private HttpSession session;
@@ -82,13 +78,11 @@ public class UserController {
 			}
 		}
 		// 重複していない場合はkey発行、DB登録、メール送信、送信完了画面へ
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String uniqueKey = mockService.generateKey();
+		String uniqueKey = UUID.randomUUID().toString();
 		// DB登録
 		Authentication authentication = new Authentication();
 		authentication.setMailAddress(email);
 		authentication.setUniqueKey(uniqueKey);
-		authentication.setRegistDate(timestamp);
 		authentication.setDeleted(0);
 		userService.insertAuthentication(authentication);
 		System.out.println("DB登録");
