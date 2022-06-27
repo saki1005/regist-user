@@ -35,7 +35,7 @@
             	<div th:text="${message}" class="control-label" style="color: red"></div>
             	<div th:errors="*{mailAddress}" class="control-label" style="color: red"></div> 
             	メールアドレス：<input type="mail" id="email" name="mailAddress" th:field="*{mailAddress}" th:value="*{mailAddress}">
-            	<button>送信</button>
+            	<button class="btn btn-primary">送信</button>
             </form>
             
           </div>

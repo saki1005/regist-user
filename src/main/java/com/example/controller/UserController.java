@@ -2,7 +2,6 @@ package com.example.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +20,7 @@ import com.example.domain.User;
 import com.example.form.EmailSubmitForm;
 import com.example.form.UserForm;
 import com.example.service.MailService;
+import com.example.service.MockService;
 import com.example.service.UserService;
 
 @Controller
@@ -31,6 +31,9 @@ public class UserController {
 
 	@Autowired
 	private MailService mailService;
+
+	@Autowired
+	private MockService mockService;
 
 	@Autowired
 	private HttpSession session;
@@ -51,7 +54,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/email-submit")
-	public String EmailSubmit(@Validated EmailSubmitForm form, BindingResult result,
+	public String emailSubmit(@Validated EmailSubmitForm form, BindingResult result,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (result.hasErrors()) {
 			return index(model);
@@ -80,7 +83,7 @@ public class UserController {
 		}
 		// 重複していない場合はkey発行、DB登録、メール送信、送信完了画面へ
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String uniqueKey = UUID.randomUUID().toString();
+		String uniqueKey = mockService.generateKey();
 		// DB登録
 		Authentication authentication = new Authentication();
 		authentication.setMailAddress(email);
@@ -124,7 +127,7 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "register_user.html";
 		}
-		if (!form.getPassword().equals(form.getConfirmPassword())) {
+		if (!(form.getPassword().equals(form.getConfirmPassword()))) {
 			model.addAttribute("message", "パスワードが一致しません");
 			return "register_user.html";
 		}

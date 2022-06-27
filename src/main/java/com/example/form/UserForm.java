@@ -10,12 +10,12 @@ public class UserForm {
 	@Pattern(regexp = "^[あ-んー　]*$", message = "全角ひらがなで入力してください")
 	private String ruby;
 	@NotBlank(message = "郵便番号を入力してください。")
-	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はXXX-XXXXの形式で入力してください")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "XXX-XXXXの形式で入力してください")
 	private String zipCode;
 	@NotBlank(message = "住所を入力してください。")
 	private String address;
 	@NotBlank(message = "電話番号を入力してください。")
-	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}-[0-9]{4}$", message = "電話番号はXXX-XXXX-XXXXの形式で入力してください")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}-[0-9]{4}$", message = "XXX-XXXX-XXXXの形式で入力してください")
 	private String telephone;
 	@NotBlank(message = "パスワードを入力してください。")
 	private String password;

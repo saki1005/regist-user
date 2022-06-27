@@ -18,8 +18,10 @@
 
 		<!-- table -->
 		<div class="row">
-			<div
-				class="
+			<form method="post" th:action="@{/register/finished}"
+				th:object="${userForm}">
+				<div
+					class="
             table-responsive
             col-lg-offset-1
             col-lg-10
@@ -28,42 +30,73 @@
             col-sm-10
             col-xs-12
           ">
-				<h3 class="text-center">ユーザー登録フォーム</h3>
-				<div class="text-center">
-					<p>ユーザー情報を入力してください。</p>
-					<form method="post" th:action="@{/register/finished}"
-						th:object="${userForm}">
-						<div th:errors="*{name}" class="control-label" style="color: red"></div>
-						名前：<input type="text" id="name" name="name" th:field="*{name}"><br>
-						<div th:errors="*{ruby}" class="control-label" style="color: red"></div>
-						ふりがな：<input type="text" id="ruby" name="ruby" th:field="*{ruby}"><br>
-						<div th:errors="*{zipCode}" class="control-label"
-							style="color: red"></div>
-						郵便番号：<input type="text" id="zip_code" name="zip_code"
-							th:field="*{zipCode}"><br>
-						<div th:errors="*{address}" class="control-label"
-							style="color: red"></div>
-						住所：<input type="text" id="address" name="address"
-							th:field="*{address}"><br>
-						<div th:errors="*{telephone}" class="control-label"
-							style="color: red"></div>
-						電話番号：<input type="text" id="telephone" name="telephone"
-							th:field="*{telephone}"><br>
-						<div th:errors="*{password}" class="control-label"
-							style="color: red"></div>
-						パスワード：<input type="password" id="password" name="password"
-							th:field="*{password}"><br>
-						<div th:errors="*{confirmPassword}" class="control-label"
-							style="color: red"></div>
+					<h3 class="text-center">ユーザー登録フォーム</h3>
+					<div class="text-center">
 
-						<div th:text="${message}" class="control-label" style="color: red"></div>
-						確認パスワード：<input type="password" id="confirm_password"
-							name="confirm_password" th:field="*{confirmPassword}"><br>
-						<button>登録</button>
-					</form>
-
+						<p>ユーザー情報を入力してください。</p>
+						<table class="table table-striped item-list-table">
+							<tbody>
+								<tr>
+									<td>お名前</td>
+									<td><div th:errors="*{name}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="text" id="name" name="name" th:field="*{name}"
+										class="form-control"></td>
+								</tr>
+								<tr>
+									<td>ふりがな</td>
+									<td><div th:errors="*{ruby}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="text" id="ruby" name="ruby" th:field="*{ruby}"
+										class="form-control"></td>
+								</tr>
+								<tr>
+									<td>郵便番号</td>
+									<td><div th:errors="*{zipCode}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="text" id="zip_code" name="zip_code"
+										th:field="*{zipCode}" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>住所</td>
+									<td><div th:errors="*{address}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="text" id="address" name="address"
+										th:field="*{address}" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>電話番号</td>
+									<td><div th:errors="*{telephone}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="text" id="telephone" name="telephone"
+										th:field="*{telephone}" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>パスワード</td>
+									<td><div th:errors="*{password}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="password" id="password" name="password"
+										th:field="*{password}" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>確認パスワード</td>
+									<td><div th:errors="*{confirmPassword}"
+											class="control-label text-left" style="color: red"></div>
+										<div th:text="${message}" class="control-label text-left"
+											style="color: red"></div>
+										<input type="password" id="confirm_password"
+										name="confirm_password" th:field="*{confirmPassword}"
+										class="form-control"></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">登録</button>
+							<button type="reset" class="btn btn-primary">クリア</button>
+						</div>
+					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 	<!-- end container -->

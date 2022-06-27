@@ -34,7 +34,7 @@ public class UserRepository {
 	private PasswordEncoder passwordEncoder;
 
 	public List<Authentication> findAuthentication(String email) {
-		String sql = "SELECT * FROM authentications WHERE mail_address = :mailAddress AND deleted=0 AND regist_date > (select now() + cast('-1 days' as INTERVAL))";
+		String sql = "SELECT * FROM authentications WHERE mail_address = :mailAddress AND deleted=0 AND register_date > (select now() + cast('-1 days' as INTERVAL))";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", email);
 		List<Authentication> registUrlList = template.query(sql, param, AUTHENTICATION_ROW_MAPPER);
@@ -46,7 +46,7 @@ public class UserRepository {
 	}
 
 	public void insertAuthentication(Authentication authentication) {
-		String sql = "INSERT INTO authentications(mail_address, unique_key, regist_date, deleted)"
+		String sql = "INSERT INTO authentications(mail_address, unique_key, register_date, deleted)"
 				+ " VALUES(:mailAddress, :uniqueKey, :registDate, :deleted);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(authentication);
 		template.update(sql, param);
